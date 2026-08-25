@@ -1,13 +1,7 @@
-from sanic import Sanic
-from sanic.response import text
+from app import create_app
 
 
-app = Sanic("HelloWorld")
-
-
-@app.get("/")
-async def hello_world(request):
-    return text("Hello, world!")
+app = create_app()
 
 
 if __name__ == "__main__":
