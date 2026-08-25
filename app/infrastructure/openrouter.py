@@ -31,8 +31,16 @@ class OpenRouterPresentationClient:
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": build_user_prompt(request)},
                 ],
-                response_format={"type": "json_object"},
+                response_format={
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "presentation_content",
+                        "strict": True,
+                        "schema": PresentationContent.model_json_schema(),
+                    },
+                },
                 max_completion_tokens=self._max_output_tokens,
+                extra_body={"provider": {"require_parameters": True}},
             )
         except (APIConnectionError, APITimeoutError) as exc:
             raise PresentationGenerationError(
