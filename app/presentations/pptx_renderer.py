@@ -123,12 +123,12 @@ class PptxRenderer:
         panel.line.fill.background()
         self._add_text(
             slide,
-            self._truncate(content.executive_summary, 1_400),
+            self._truncate(content.executive_summary, 800),
             left=1.25,
             top=2.0,
             width=10.85,
             height=3.9,
-            font_size=22,
+            font_size=20,
             color=self._NAVY,
         )
         self._add_footer(slide, 2, content.disclaimer)
@@ -143,32 +143,32 @@ class PptxRenderer:
     ) -> None:
         slide = presentation.slides.add_slide(presentation.slide_layouts[6])
         self._set_background(slide, self._WHITE)
-        self._add_slide_title(slide, self._truncate(content.title, 105))
+        self._add_slide_title(slide, self._truncate(content.title, 55))
         self._add_text(
             slide,
-            self._truncate(content.key_message, 280),
+            self._truncate(content.key_message, 120),
             left=0.85,
-            top=1.35,
+            top=1.45,
             width=7.35,
-            height=0.85,
-            font_size=24,
+            height=0.9,
+            font_size=20,
             color=self._BLUE,
             bold=True,
         )
 
         bullet_text = "\n".join(
-            f"• {self._truncate(bullet, 220)}" for bullet in content.bullets
+            f"• {self._truncate(bullet, 150)}" for bullet in content.bullets[:5]
         )
         self._add_text(
             slide,
             bullet_text,
             left=0.85,
-            top=2.35,
+            top=2.65,
             width=7.25,
-            height=3.9,
-            font_size=18,
+            height=3.55,
+            font_size=16,
             color=self._NAVY,
-            paragraph_spacing=9,
+            paragraph_spacing=6,
         )
 
         panel = slide.shapes.add_shape(
@@ -221,10 +221,10 @@ class PptxRenderer:
             slide,
             title,
             left=0.85,
-            top=0.48,
+            top=0.45,
             width=11.65,
-            height=0.62,
-            font_size=35,
+            height=0.72,
+            font_size=32,
             color=self._NAVY,
             bold=True,
         )
@@ -327,4 +327,8 @@ class PptxRenderer:
         normalized = " ".join(text.split())
         if len(normalized) <= limit:
             return normalized
-        return f"{normalized[: limit - 1].rstrip()}…"
+
+        shortened = normalized[: limit - 1].rsplit(" ", maxsplit=1)[0]
+        if not shortened:
+            shortened = normalized[: limit - 1]
+        return f"{shortened.rstrip(' ,.;:-')}…"

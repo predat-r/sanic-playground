@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
-DEFAULT_MODEL = "stealth/ox-alpha"
+DEFAULT_MODEL = "liquid/lfm-2.5-2.6b:free"
 DEFAULT_MAX_INPUT_BYTES = 8 * 1024 * 1024
 DEFAULT_TIMEOUT_SECONDS = 180.0
-MODEL_MAX_COMPLETION_TOKENS = 131_072
-DEFAULT_MAX_OUTPUT_TOKENS = 65_536
+MODEL_MAX_COMPLETION_TOKENS = 8_192
+DEFAULT_MAX_OUTPUT_TOKENS = 8_192
 
 
 class ConfigurationError(RuntimeError):
